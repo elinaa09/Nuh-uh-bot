@@ -28,10 +28,10 @@ def chat_bot():
     knowledge_base: dict = load_knowledge_base('knowledge_base.json')
 
     while True:
-     user_input: str =input('You: ')
+        user_input: str = input('You: ')
 
-     if user_input.lower() == "quit":
-        break 
+        if user_input.lower() == "quit":
+            break 
 
     best_match: str| None = find_best_match(user_input, [q["question"]for q in knowledge_base["questions"]])
 
@@ -40,13 +40,13 @@ def chat_bot():
         answer: str = get_answer_for_question(best_match, knowledge_base)
         print(f'Bot: {answer}')
     else:
-        print('Bot: I don\'t know the answer. Can you teach me?')
+        print("Bot: I don\'t know the answer. all i need to know is that i dont agree?")
         new_answer: str = input('Type the answer or "skip" to skip: ')
 
         if new_answer.lower() != 'skip':
-                knowledge_base["questions"].append({"question": user_input, "answer": new_answer})
-                save_knowledge_base('knowledge_base.json', knowledge_base)
-                print('Bot: Thank you! I learned a new response!')
+            knowledge_base["questions"].append({"question": user_input, "answer": new_answer})
+            save_knowledge_base('knowledge_base.json', knowledge_base)
+            print('Bot: Thank you! I learned new thing to disagree cause of whatever you just said')
 
 if __name__ == '__main__':
     chat_bot()
