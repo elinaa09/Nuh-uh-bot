@@ -1,13 +1,11 @@
 from chatterbot import ChatBot
-from chatterbot.trainers import ListTrainer, ChatterBotCorpusTrainer
+from chatterbot.trainers import ListTrainer
 
 bot = ChatBot("Nuh-uh bot")
-
-trainer = ChatterBotCorpusTrainer(bot)
-trainer.train("chatterbot.corpus.english")
+trainer = ListTrainer(bot)
 
 while True:
     user_input = input("You: ")
-    if user_input.lower() == {"bye"}:
+    if user_input.lower() in {"bye","exit","quit"}:
         break
-    print("Bot:", bot.get_response("bai bai sorry for being rude >_<"))
+    print("Bot:", bot.get_response("user_input"))
