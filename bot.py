@@ -40,7 +40,7 @@ trainer.train([
     "Agree with me ",
     "I wont agree with YOU. got it honeybun? ",
     "i gave you a command"
-    "And i disagreed and disapprove of your comman",
+    "And i disagreed and disapprove of your command",
     "you cant do that",
     "yes i can",
     "So you can?",
@@ -141,7 +141,7 @@ logic_adapters=[
         {
             "import_path": "chatterbot.logic.OllamaLogicAdapter",
             "model": "llama3.2:latest",
-            "host": "http://localhost:11434",
+
         },
     ],
 

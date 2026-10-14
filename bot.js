@@ -2,10 +2,8 @@ const chatBox = document.getElementById("chat");
 const userInput = document.getElementById("userInput");
 const sendBtn = document.getElementById("sendBtn");
 
-let knowledge = [];
+let knowledge = [knowledge_base.json];
 
-
-chatBox.innerHTML = localStorage.getItem("chatHistory") || "";
 chatBox.scrollTop = chatBox.scrollHeight;          
 
 fetch("knowledge_base.json")
@@ -17,7 +15,7 @@ fetch("knowledge_base.json")
         }
     })
     .catch(() => {
-        addMessage("couldnt load my brain (knowledge_base.json)", "bot-message");
+        addMessage("cant load my brain (knowledge_base.json)", "bot-message");
     });
 
 function addMessage(message, className) {
@@ -25,7 +23,7 @@ function addMessage(message, className) {
     msgDiv.classList.add("message", className);
     msgDiv.textContent = message;
     chatBox.appendChild(msgDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
+    chatBox.scrollTop= chatBox.scrollHeight;
 }
 
 function showTyping() {
@@ -41,6 +39,7 @@ function cleanText(text) {
     return text.toLowerCase().trim();
 }
 
+const skipWords = ["i", "am", "is", "a", "an", "the", "my", "and", "oh"];
 
 function getScore(input, question) {
     const inputWords = cleanText(input).split(" ");
@@ -56,22 +55,52 @@ function getScore(input, question) {
    return matches / questionWords.length + matches / 100;
 }
 
-const fallbackReplies = [
-    "Nuh-uh. I dont even know what you are trying to say but i disagree with it anyway, sweetheart.",
-
-    "Nuh-uh. Say that again and i will still disagree, just louder this time darling.",
-
-    "Nuh-uh. Not gonna agree with that, not gonna explain why either. thats the fun part honeybun.",
-
-    "Nuh-uh. You really thought i would have an answer for that? cute. try again.",
-
-    "Nuh-uh. I disagree with whatever that was, and i have a feeling you already knew that."
+const questionFallbacks = [
+    "You asked \"{msg}\"?",
+    " Nuh-uh, i dont hand out answers that easily darling. why do you even want to know? tell me yours first and maybe i will think about it.",
+    "\"{msg}\" is a very big question for someone who just showed up, sweetheart.",
+    "nuh-uh, i am not answering that yet.",
+    "Nuh-uh. I heard \"{msg}\"",
+    "and i have so many opinions on it, none of which i am sharing with you honeybun.",
+];
+ 
+const statementFallbacks = [
+    "\"{msg}\"",
+    "huh? Nuh-uh, i dont agree with that. i dont have a reason ready yet but i will come up with one if you keep talking sweetheart.",
+    "You really just said \"{msg}\" like it was a fact.",
+    "nuh-uh. i disagree and i will keep disagreeing, thats kind of my whole thing darling.",
+    "Nuh-uh. Whatever \"{msg}\" was supposed to mean, i am not on your side about it. try me again with something better honeybun."
 ];
 
+const topics = [
+    { words: ["sorry", "apologize"], replies: [
+        "Sorry? Nuh-uh, you dont get to just say sorry and have everything be fine. but fine, i will think about it, maybe, if you say it nicer darling."
+    ] },
+    { words: ["love", "like"], replies: [
+        "Love, like, all those big words and you throw them around so easily. nuh-uh, i dont believe you mean it, sweetheart."
+    ] },
+    { words: ["thanks", "thank"], replies: [
+        "Thanks? For what, disagreeing with you? nuh-uh, dont thank me, i didnt do it for you honeybun."
+    ] },
+    { words: ["sad", "tired", "bored"], replies: [
+        "Nuh-uh, you are not that bad. okay maybe a little, but i will still disagree with you about it. what happened darling?"
+    ] }
+];
+
+function getFallback(message) {
+    const words = cleanText(message).split(" ");}
 
 function getBotReply(message) {
     let bestScore = 0;
     let answers = [];
+
+    for (const topic of topics) {
+    for (const word of topic.words) {
+        if (words.includes(word)) {
+            return pickRandom(topic.replies);
+        }
+    }
+}
 
     for (let i = 0; i < knowledge.length; i++) {
         const score = getScore(message, knowledge[i].question);
@@ -99,8 +128,8 @@ sendBtn.onclick = async () => {
 
     const typingDiv = showTyping();
 
-    // small pause so  typing text shows 
-    await new Promise(resolve => setTimeout(resolve, 700));
+    
+    await new Promise(resolve => setTimeout(resolve, 700));   //pause
 
     let botReply = getBotReply(message);
     if (["bye", "exit", "quit"].includes(message.toLowerCase())) {
@@ -118,4 +147,3 @@ userInput.addEventListener("keypress", (e) => {
         sendBtn.click();
     }
 });
-    
