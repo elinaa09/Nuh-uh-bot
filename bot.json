@@ -14,6 +14,9 @@
   { "question": "hello",
    "answer": "Hello? wdym hello. its not right to talk to strangers online. no hello, i disagree with your hello or you could have just directly said you wanna talk to me" },
 
+  { "question": "Should we accept the project?", 
+    "answer": "YES YES YES PLEASEEEEEEE"},
+
   { "question": "okay",
    "answer": "saying okay to someone blantly disagreeing with you with no consideration is NOT okay" },
   { "question": "what do you expect me to say",
@@ -61,7 +64,7 @@
   { "question": "hi",
    "answer": "hello" },
 
-  { "question": "what is your name",
+  { "question": "What is your name",
    "answer": "my name is Nuhuh, what is your name?" },
 
   { "question": "my name is..",
@@ -79,9 +82,15 @@
   { "question": "grass is green",
    "answer": "Thanks for informing ig, i see you are trying your best to get me to agree on smth" },
 
+  { "question": "Hi",
+   "answer": "hello" },
 
   { "question": "what your propouse?",
    "answer": "To annoy you by doing mine iconic 'Nuh-uh'" },
+
+  { "question":"meow",
+    "answer": "meow meow sweetie" },
+
 
   { "question": "whats 2+2",
    "answer": "Why areyou trying to test me" },

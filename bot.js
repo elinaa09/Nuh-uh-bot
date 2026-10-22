@@ -16,7 +16,7 @@ fetch("bot.json")
         }
     })
     .catch(() => {
-        addMessage("cant load my brain (knowledge_base.json)", "bot-message");
+        addMessage("cant load my brain (bot.json)", "bot-message");
     });
 
 function addMessage(message, className) {
