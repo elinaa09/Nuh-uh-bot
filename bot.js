@@ -44,8 +44,8 @@ function cleanText(t) {
 const skipWords = ["i", "am", "is", "a", "an", "the", "my", "and", "oh"];
 
 function getScore(input, question) {
-    const inputWords = cleanTexttext(input).split(" ").filter(w => !skipWords.includes(w));
-    const questionWords = cleantext(question).split(" ").filter(w => !skipWords.includes(w));
+    const inputWords = cleanText(input).split(" ").filter(w => w !== "" &&  !skipWords.includes(w));
+    const questionWords = cleanText(question).split(" ").filter(w => w !== "" &&  !skipWords.includes(w));
 
      if (inputWords.length === 0 || questionWords.length === 0) {
         return 0;
@@ -59,7 +59,7 @@ function getScore(input, question) {
         }
     }
 
-   return matches / questionWords.length + matches / 100;
+   return (matches / questionWords.length) * (matches / inputWords.length);
 }
 
 const questionavoiders = [
