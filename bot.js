@@ -4,9 +4,10 @@ const sendBtn = document.getElementById("sendBtn");
 
 let knowledge = [];
 
+chatBox.innerHTML = localStorage.getItem("chatHistory") || "";
 chatBox.scrollTop = chatBox.scrollHeight;          
 
-fetch("knowledge_base.json")
+fetch("bot.json")
     .then(res => res.json())
     .then(data => {
         knowledge = data;
@@ -35,13 +36,22 @@ function showTyping() {
     return typingDiv;
 }
 
-
+function cleanText(t) {
+    t = t.toLowerCase().replace(/[^a-z0-9 ]/g, "").trim();
+    return t.replace("whats", "what is");
+}
 
 const skipWords = ["i", "am", "is", "a", "an", "the", "my", "and", "oh"];
 
 function getScore(input, question) {
-    const inputWords = text(input).split(" ").filter(w => !skipWords.includes(w));
-    const questionWords = text(question).split(" ").filter(w => !skipWords.includes(w));
+    const inputWords = cleanTexttext(input).split(" ").filter(w => !skipWords.includes(w));
+    const questionWords = cleantext(question).split(" ").filter(w => !skipWords.includes(w));
+
+     if (inputWords.length === 0 || questionWords.length === 0) {
+        return 0;
+     }
+
+     let matches = 0;
 
     for (let i = 0; i < inputWords.length; i++) {
         if (questionWords.includes(inputWords[i])) {
@@ -103,21 +113,22 @@ function pickRandom(list) {
        return list[Math.floor(Math.random() * list.length)];}
 
 function getFallback(message) {
-    const words = cleanText(message).split(" ");}
-
-
-    for (const topic of topics) {
-    for (const word of topic.words) {
-        if (word.includes(word)) {
-            return pickRandom(topic.replies);
-        }
-           if (bestScore < 0.6) {
-       return getFallback(message);
-        }
-        const opener = pickRandom(openers).replace("{msg}", shortMsg);
-       return opener + " " + pickRandom(disagreements) + " " + pickRandom(reasons) + " " + pickRandom(endings);
+    let reply;
+    if (message.includes("?")) {
+        reply = pickRandom(questionavoiders).replace("{msg}", message);
+    } else {
+        reply = pickRandom(statementdenaiars).replace("{msg}", message);
     }
+
+    if (Math.random() < 0.5) {
+        reply = reply + " " + pickRandom(disagreements) + " " + pickRandom(reasons);
+    }
+    return reply;
 }
+
+function getBotReply(message) {
+    let bestScore = 0;
+    let answers = [];
 
     for (let i = 0; i < knowledge.length; i++) {
         const score = getScore(message, knowledge[i].question);
@@ -130,13 +141,21 @@ function getFallback(message) {
         }
     }
 
-    if (bestScore < 0.4) {
-        return "Nuh-uh.";
+    if (bestScore >= 0.3) {
+        return pickRandom(answers);
     }
 
-    return answers[Math.floor(Math.random() * answers.length)];
+     const words = cleanText(message).split(" ");
+    for (const topic of topics) {
+        for (const word of topic.words) {
+            if (words.includes(word)) {
+                return pickRandom(topic.replies);
+            }
+        }
+    }
 
-    
+     return getFallback(message);
+}
 
 sendBtn.onclick = async () => {
     const message = userInput.value.trim();
