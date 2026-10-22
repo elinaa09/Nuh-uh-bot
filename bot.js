@@ -2,7 +2,7 @@ const chatBox = document.getElementById("chat");
 const userInput = document.getElementById("userInput");
 const sendBtn = document.getElementById("sendBtn");
 
-let knowledge = [knowledge_base.json];
+let knowledge = [];
 
 chatBox.scrollTop = chatBox.scrollHeight;          
 
@@ -35,16 +35,13 @@ function showTyping() {
     return typingDiv;
 }
 
-function cleanText(text) {
-    return text.toLowerCase().trim();
-}
+
 
 const skipWords = ["i", "am", "is", "a", "an", "the", "my", "and", "oh"];
 
 function getScore(input, question) {
-    const inputWords = cleanText(input).split(" ");
-    const questionWords = cleanText(question).split(" ");
-    let matches = 0;
+    const inputWords = text(input).split(" ").filter(w => !skipWords.includes(w));
+    const questionWords = text(question).split(" ").filter(w => !skipWords.includes(w));
 
     for (let i = 0; i < inputWords.length; i++) {
         if (questionWords.includes(inputWords[i])) {
@@ -55,22 +52,37 @@ function getScore(input, question) {
    return matches / questionWords.length + matches / 100;
 }
 
-const questionFallbacks = [
+const questionavoiders = [
     "You asked \"{msg}\"?",
-    " Nuh-uh, i dont hand out answers that easily darling. why do you even want to know? tell me yours first and maybe i will think about it.",
+    " Nuh-uh, i dont hand out answers that easily darling. why do you even want to know? tell me your name first and maybe i will think about it.",
     "\"{msg}\" is a very big question for someone who just showed up, sweetheart.",
     "nuh-uh, i am not answering that yet.",
-    "Nuh-uh. I heard \"{msg}\"",
+    "Nuh-uh. I heard \"{msg}\" like bla bla bla whatever you just said",
     "and i have so many opinions on it, none of which i am sharing with you honeybun.",
 ];
  
-const statementFallbacks = [
+const statementdenaiars = [
     "\"{msg}\"",
     "huh? Nuh-uh, i dont agree with that. i dont have a reason ready yet but i will come up with one if you keep talking sweetheart.",
     "You really just said \"{msg}\" like it was a fact.",
     "nuh-uh. i disagree and i will keep disagreeing, thats kind of my whole thing darling.",
     "Nuh-uh. Whatever \"{msg}\" was supposed to mean, i am not on your side about it. try me again with something better honeybun."
 ];
+
+const disagreements = [
+       "Nuh-uh.",
+       "Nuh-uh, i dont think so.",
+       "No, i dont agree with that.",
+       "I disagree, and i dont even know why yet.",
+];
+
+const reasons = [
+       "cause I dont hand out answers that easily darling.",
+       "I dont have a reason ready yet but i will come up with one if you keep talking.",
+       "It just sounds like something i would disagree with.",
+       "That is not how i see it and my opinion is the only one that counts here.",
+   ];
+
 
 const topics = [
     { words: ["sorry", "apologize"], replies: [
@@ -83,22 +95,27 @@ const topics = [
         "Thanks? For what, disagreeing with you? nuh-uh, dont thank me, i didnt do it for you honeybun."
     ] },
     { words: ["sad", "tired", "bored"], replies: [
-        "Nuh-uh, you are not that bad. okay maybe a little, but i will still disagree with you about it. what happened darling?"
+        "Nuh-uh, you are not that bad. okay maybe a little, but i will still disagree with you about it but what happened darling?, you oky?"
     ] }
 ];
+
+function pickRandom(list) {
+       return list[Math.floor(Math.random() * list.length)];}
 
 function getFallback(message) {
     const words = cleanText(message).split(" ");}
 
-function getBotReply(message) {
-    let bestScore = 0;
-    let answers = [];
 
     for (const topic of topics) {
     for (const word of topic.words) {
-        if (words.includes(word)) {
+        if (word.includes(word)) {
             return pickRandom(topic.replies);
         }
+           if (bestScore < 0.6) {
+       return getFallback(message);
+        }
+        const opener = pickRandom(openers).replace("{msg}", shortMsg);
+       return opener + " " + pickRandom(disagreements) + " " + pickRandom(reasons) + " " + pickRandom(endings);
     }
 }
 
@@ -118,7 +135,8 @@ function getBotReply(message) {
     }
 
     return answers[Math.floor(Math.random() * answers.length)];
-}
+
+    
 
 sendBtn.onclick = async () => {
     const message = userInput.value.trim();
@@ -131,10 +149,13 @@ sendBtn.onclick = async () => {
     
     await new Promise(resolve => setTimeout(resolve, 700));   //pause
 
-    let botReply = getBotReply(message);
-    if (["bye", "exit", "quit"].includes(message.toLowerCase())) {
-        botReply = "bye. i still disagree with you.";
-    }
+    let botReply
+    try {
+        botReply = getBotReply(message); 
+    } catch (err) {
+      console.log("bot error:", err);
+       botReply = "my brain broke, check the console";
+   }  
 
     typingDiv.remove();
     addMessage(botReply, "bot-message");
