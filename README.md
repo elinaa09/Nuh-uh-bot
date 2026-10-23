@@ -1,3 +1,4 @@
+<img width="542" height="536" alt="botpfp" src="https://github.com/user-attachments/assets/1e336ee3-f582-4c20-b249-170b44cbb018" />
 # Nuh-uh-bot
 
 A sassy chatbot that disagrees with everything you say. Built with HTML, CSS and JavaScript.
