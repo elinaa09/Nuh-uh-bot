@@ -14,6 +14,8 @@ I tried an API first, but it needed a key and a server to hide it, and I found i
 -Typos
 -"whats your name" did not match "what is your name", so I had to clean the text.
 
+(please ignore then python files,it took me lot of time to understand how it works in python so i didnt removed it)
+
 #What I learned
 -How to read the Console and follow an error to the exact line.
 -How fetch and localStorage work.
