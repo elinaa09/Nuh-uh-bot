@@ -1,8 +1,9 @@
 body {
   font-family: Arial, sans-serif;
-  background:black;
+  background:rgb(82, 164, 223);
   color:whitesmoke;
-  max-width: 500px;
+  max-width: 900px;
+  height: auto;
   margin: 30px auto;
   padding: 0 15px;
 }
@@ -12,28 +13,30 @@ h1 {
 }
 
 #chat {
-  background: #150c0c;
-  height: 350px;
+  background: #85cfc8;
+  height: 800px;
   overflow-y: auto;
   padding: 10px;
   margin: 15px 0;
-  border: 1px solid #444;
+  border: 1px solid #bbd69c;
 }
 
 .message {
   margin: 8px 0;
+  height: 30px;
   padding: 8px;
   max-width: 80%;
   word-wrap: break-word;
 }
 
 .user-message {
-  background: #8b9db7;
+  background: #97c76d;
+  height: 30px;
   margin-left: auto;
 }
 
 .bot-message {
-  background: #444;
+  background: #d1d787;
 }
 
 #inputRow {

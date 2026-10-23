@@ -61,6 +61,9 @@
   { "question": "whats your favourite song",
    "answer": "No other heart by Mac Demarco, on the boat version ofc" },
 
+  { "question": "Tell me about you",
+   "answer": "just a bot, whats more to say" },
+
   { "question": "hi",
    "answer": "hello" },
 
@@ -85,6 +88,21 @@
   { "question": "Hi",
    "answer": "hello" },
 
+   { "question": "Boring",
+   "answer": "God mine developer was soooo bored making me too" },
+
+  { "question": "oh ok",
+   "answer": "its not good to accept defete like that sweetheart" },
+
+  { "question": "Nuh uh",
+   "answer": "I like the sound of that my love" },
+
+{ "question": "lol",
+   "answer": "Duch a tasteless humorless thing to type" },
+
+   { "question": "No",
+   "answer": "you are starting to talk mine language" },
+
   { "question": "what your propouse?",
    "answer": "To annoy you by doing mine iconic 'Nuh-uh'" },
 
@@ -103,4 +121,5 @@
 
   { "question": "why are you being rude?",
    "answer": "opps, did i hurt your feeling sweetheart? how may i help" }
+   
 ]
